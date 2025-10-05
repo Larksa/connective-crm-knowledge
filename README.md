@@ -36,7 +36,9 @@ cd connective-crm-knowledge
 
 ```bash
 # Create virtual environment
-python3 -m venv venv
+python3 -m venv venv  # Mac/Linux
+# OR
+py -m venv venv       # Windows
 
 # Activate it
 source venv/bin/activate  # Mac/Linux
