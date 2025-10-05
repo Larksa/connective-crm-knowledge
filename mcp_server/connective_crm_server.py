@@ -23,7 +23,7 @@ from typing import Any, Sequence
 # Add parent directory to path to import SDK
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from connective_crm_sdk import CRMReference
+from sdk import CRMReference
 
 
 # MCP Protocol utilities

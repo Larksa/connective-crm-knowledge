@@ -6,7 +6,7 @@ Provides structured access to all 74 elements, 286+ dropdown options,
 and validated workflows.
 
 Usage:
-    from connective_crm_sdk import CRMReference
+    from sdk import CRMReference
 
     crm = CRMReference()
 

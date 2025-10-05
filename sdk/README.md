@@ -21,7 +21,7 @@ pip install rapidfuzz>=3.5.0
 ## Quick Start
 
 ```python
-from connective_crm_sdk import CRMReference
+from sdk import CRMReference
 
 # Initialize SDK
 crm = CRMReference()

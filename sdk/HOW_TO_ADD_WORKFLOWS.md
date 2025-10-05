@@ -161,7 +161,7 @@ time.sleep(2)
 1. Save the file
 2. Reload the SDK:
    ```python
-   from connective_crm_sdk import CRMReference
+   from sdk import CRMReference
    crm = CRMReference()  # Re-parses markdown
    ```
 3. Use it:
@@ -179,7 +179,7 @@ For dynamic or conditional workflows that need to be generated at runtime.
 ### Template
 
 ```python
-from connective_crm_sdk import Workflow, WorkflowStep
+from sdk import Workflow, WorkflowStep
 
 # Create steps
 steps = [
@@ -216,7 +216,7 @@ crm.workflows["workflow_name"] = workflow
 ### Example: Update Financial Information
 
 ```python
-from connective_crm_sdk import Workflow, WorkflowStep
+from sdk import Workflow, WorkflowStep
 
 def create_update_financials_workflow():
     """Create workflow for updating financial information"""
@@ -309,7 +309,7 @@ If you have JSON recordings from your automation capture tool, convert them to w
 
 ```python
 import json
-from connective_crm_sdk import Workflow, WorkflowStep
+from sdk import Workflow, WorkflowStep
 
 def convert_recording_to_workflow(
     recording_path: str,
@@ -532,7 +532,7 @@ Your recording JSON should look like:
 ### Basic Usage
 
 ```python
-from connective_crm_sdk import CRMReference
+from sdk import CRMReference
 
 crm = CRMReference()
 
@@ -656,7 +656,7 @@ await executor.execute("add_liability", dry_run=True)
 ### 1. Test Parsing
 
 ```python
-from connective_crm_sdk import CRMReference
+from sdk import CRMReference
 
 crm = CRMReference()
 
@@ -911,7 +911,7 @@ WorkflowStep(
 ### Workflow Template (Python)
 
 ```python
-from connective_crm_sdk import Workflow, WorkflowStep
+from sdk import Workflow, WorkflowStep
 
 workflow = Workflow(
     name="workflow_name",
