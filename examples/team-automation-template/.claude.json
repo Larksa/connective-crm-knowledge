@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "connective-crm": {
+      "command": "python",
+      "args": [
+        "/Users/YOUR_USERNAME/connective-crm-knowledge/mcp_server/connective_crm_server.py"
+      ],
+      "env": {},
+      "_comment": "Replace YOUR_USERNAME with your actual username. On Windows use: C:\\Users\\YOUR_USERNAME\\connective-crm-knowledge\\mcp_server\\connective_crm_server.py"
+    }
+  }
+}

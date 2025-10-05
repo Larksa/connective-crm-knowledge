@@ -1,0 +1,10 @@
+# Data processing
+pandas>=2.0.0
+
+# Browser automation (optional - uncomment if needed)
+# playwright>=1.40.0
+
+# The connective-crm-knowledge repo already has rapidfuzz
+# No need to install it here - MCP handles it
+
+# Add your automation-specific dependencies below:
