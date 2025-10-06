@@ -104,19 +104,27 @@ python mcp_server/connective_crm_server.py
 
 ### Step 6: Configure Claude Code
 
+**Important:** The MCP server configuration goes in your **user-level** `.claude.json` file, NOT the project-level file.
+
 1. Find your Windows username:
    ```bash
    echo %USERNAME%
    ```
 
-2. Create or edit `.claude.json` in your automation project:
+2. Find your Python installation path:
+   ```bash
+   where python
+   # Example output: C:\Python313\python.exe
+   ```
+
+3. Create or edit `C:\Users\YOUR_USERNAME\.claude.json` (user-level config):
    ```json
    {
      "mcpServers": {
        "connective-crm": {
-         "command": "python",
+         "command": "C:\\Python313\\python.exe",
          "args": [
-           "C:\\Users\\YOUR_USERNAME\\connective-crm-knowledge\\mcp_server\\connective_crm_server.py"
+           "C:\\Users\\YOUR_USERNAME\\Documents\\connective-crm-knowledge\\mcp_server\\connective_crm_server.py"
          ],
          "env": {}
        }
@@ -124,9 +132,11 @@ python mcp_server/connective_crm_server.py
    }
    ```
 
-3. **Replace `YOUR_USERNAME`** with the output from step 1
+4. **Replace:**
+   - `YOUR_USERNAME` with the output from step 1
+   - `C:\\Python313\\python.exe` with your Python path from step 2
 
-4. Save file and **restart Claude Code**
+5. Save file and **restart Claude Code**
 
 ### Step 7: Test in Claude Code
 
@@ -203,17 +213,19 @@ python mcp_server/connective_crm_server.py
 
 ### Step 6: Configure Claude Code
 
+**Important:** The MCP server configuration goes in your **user-level** `~/.claude.json` file, NOT the project-level file.
+
 1. Find your macOS username:
    ```bash
    whoami
    ```
 
-2. Create or edit `.claude.json` in your automation project:
+2. Create or edit `~/.claude.json` (user-level config):
    ```json
    {
      "mcpServers": {
        "connective-crm": {
-         "command": "python",
+         "command": "python3",
          "args": [
            "/Users/YOUR_USERNAME/connective-crm-knowledge/mcp_server/connective_crm_server.py"
          ],
@@ -284,17 +296,19 @@ python mcp_server/connective_crm_server.py
 
 ### Step 6: Configure Claude Code
 
+**Important:** The MCP server configuration goes in your **user-level** `~/.claude.json` file, NOT the project-level file.
+
 1. Get username:
    ```bash
    whoami
    ```
 
-2. Edit `.claude.json` in your automation project:
+2. Create or edit `~/.claude.json` (user-level config):
    ```json
    {
      "mcpServers": {
        "connective-crm": {
-         "command": "python",
+         "command": "python3",
          "args": [
            "/home/YOUR_USERNAME/connective-crm-knowledge/mcp_server/connective_crm_server.py"
          ],
@@ -304,9 +318,9 @@ python mcp_server/connective_crm_server.py
    }
    ```
 
-3. **Replace `YOUR_USERNAME`**
+3. **Replace `YOUR_USERNAME`** with the output from step 1
 
-4. Restart Claude Code
+4. Save and **restart Claude Code**
 
 ### Step 7: Test in Claude Code
 
@@ -447,11 +461,15 @@ pip install -r requirements.txt
 ### Issue: "MCP not showing in Claude Code"
 
 **Checklist:**
-1. ✅ `.claude.json` has valid JSON (no trailing commas, correct brackets)
-2. ✅ Used **absolute path** to MCP server (not relative `./` path)
-3. ✅ Replaced `YOUR_USERNAME` with actual username
-4. ✅ Restarted Claude Code **completely** (quit and reopen)
-5. ✅ MCP server starts without errors when run manually
+1. ✅ Configuration is in **user-level** `~/.claude.json` (NOT project-level `.claude.json`)
+2. ✅ `.claude.json` has valid JSON (no trailing commas, correct brackets)
+3. ✅ Used **absolute path** to MCP server (not relative `./` path)
+4. ✅ Replaced `YOUR_USERNAME` with actual username
+5. ✅ Windows: Used full Python path like `C:\\Python313\\python.exe`
+6. ✅ Restarted Claude Code **completely** (quit and reopen)
+7. ✅ MCP server starts without errors when run manually
+
+**Common mistake:** If your user-level `~/.claude.json` has a project entry with empty `"mcpServers": {}`, it will override the project-level config. Solution: Add the MCP config to the user-level file instead.
 
 **Debug:**
 ```bash
@@ -460,6 +478,10 @@ cd ~/connective-crm-knowledge
 source venv/bin/activate
 python mcp_server/connective_crm_server.py
 # If this fails, fix errors first
+
+# Verify configuration location (should be in user-level file)
+# Windows: C:\Users\YOUR_USERNAME\.claude.json
+# Mac/Linux: ~/.claude.json
 ```
 
 ---
