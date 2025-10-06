@@ -1,0 +1,22 @@
+{
+  "description": "Maps income type variations to Connective CRM dropdown values (4 income types)",
+  "mappings": {
+    "Dividends": ["Dividends", "Dividend", "Div", "Share Dividends", "Investment Dividends", "Distribution", "Trust Distribution"],
+    "Family Allowance": ["Family Allowance", "FTB", "Family Tax Benefit", "Child Care Subsidy", "CCS", "Parenting Payment", "Family Benefit"],
+    "Maintenance": ["Maintenance", "Child Support", "Spousal Support", "Child Maintenance", "Spouse Maintenance", "Support Payment"],
+    "Other": ["Other", "Miscellaneous", "Other Income", "Misc Income", "Rental", "Pension", "Allowance", "Centrelink"]
+  },
+  "frequency_options": {
+    "Annual": ["Annual", "Annually", "Yearly", "Per Year", "PA", "Year"],
+    "Monthly": ["Monthly", "Per Month", "PM", "Month", "Mth"],
+    "Fortnightly": ["Fortnightly", "Fornightly", "2 Weekly", "Bi-Weekly", "Bi Weekly"],
+    "Weekly": ["Weekly", "Per Week", "PW", "Week", "Wk"]
+  },
+  "fallback_strategy": "fuzzy_match",
+  "fuzzy_match_threshold": 80,
+  "case_sensitive": false,
+  "notes": {
+    "simple_form": "Only 3 fields required: type, frequency, amount",
+    "no_dual_application": "No ownership allocation fields for income"
+  }
+}

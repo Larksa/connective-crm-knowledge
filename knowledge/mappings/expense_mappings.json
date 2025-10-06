@@ -1,0 +1,152 @@
+{
+  "description": "Maps Excel expense names to Connective CRM dropdown values",
+  "mappings": {
+    "Transport": [
+      "Transport",
+      "Public Transport, Taxi & Ride Share, Air Travel, Vehicle Running Cost",
+      "Public Transport",
+      "Vehicle Running Cost",
+      "Car Expenses"
+    ],
+    "Rent": [
+      "Rent",
+      "Rental",
+      "Rental Payments",
+      "Rent Payments"
+    ],
+    "Board": [
+      "Board",
+      "Board Payments",
+      "Boarding"
+    ],
+    "Groceries": [
+      "Groceries",
+      "Food",
+      "Food Shopping",
+      "Grocery Shopping"
+    ],
+    "Childcare": [
+      "Childcare",
+      "Child Care",
+      "Day Care",
+      "Child Minding"
+    ],
+    "Child & Spouse Maintenance": [
+      "Child & Spouse Maintenance",
+      "Child or Spousal Maintenance",
+      "Spousal Maintenance",
+      "Child Maintenance",
+      "Maintenance Payments"
+    ],
+    "Clothing & Personal Care": [
+      "Clothing & Personal Care",
+      "Clothing and Personal Care",
+      "Personal Care",
+      "Clothing"
+    ],
+    "Public or Government Primary & Secondary Education": [
+      "Public or Government Primary & Secondary Education",
+      "Education - Public or Government Primary and Secondary",
+      "Public Education",
+      "Government School",
+      "State School"
+    ],
+    "Higher Education & Vocational Training (excluding HECS/HELP)": [
+      "Higher Education & Vocational Training (excluding HECS/HELP)",
+      "Higher Education, Vocational Training and Professional Fees",
+      "Higher Education",
+      "Vocational Training",
+      "University Fees",
+      "TAFE Fees"
+    ],
+    "Private & Non-Government Education": [
+      "Private & Non-Government Education",
+      "Private Schooling and Tuition",
+      "Private School",
+      "Private Education",
+      "Non-Government School"
+    ],
+    "General Insurance (Including Home & Contents on Primary O/Occ Residence)": [
+      "General Insurance (Including Home & Contents on Primary O/Occ Residence)",
+      "General Basic Insurances",
+      "General Insurance",
+      "Home Insurance",
+      "Contents Insurance"
+    ],
+    "Personal Insurance (Life, Health, Sickness and Personal Accident)": [
+      "Personal Insurance (Life, Health, Sickness and Personal Accident)",
+      "Personal Insurance",
+      "Life Insurance",
+      "Health Insurance",
+      "Income Protection"
+    ],
+    "Other Insurances": [
+      "Other Insurances",
+      "Other Insurance",
+      "Miscellaneous Insurance"
+    ],
+    "Investment Property Costs (including Insurance)": [
+      "Investment Property Costs (including Insurance)",
+      "Investment Property Costs",
+      "Investment Property",
+      "Rental Property Costs"
+    ],
+    "Primary Residence Costs (excluding Insurance)": [
+      "Primary Residence Costs (excluding Insurance)",
+      "Primary Residence Costs",
+      "Home Costs",
+      "Utilities",
+      "Rates"
+    ],
+    "Secondary Residence & Holiday Home Costs (including Insurance)": [
+      "Secondary Residence & Holiday Home Costs (including Insurance)",
+      "Secondary Residence & Holiday Home Costs",
+      "Holiday Home",
+      "Second Property"
+    ],
+    "O/Occ Strata, Body Corporate, Land Tax": [
+      "O/Occ Strata, Body Corporate, Land Tax",
+      "Strata Fees",
+      "Body Corporate",
+      "Land Tax"
+    ],
+    "Medical & Health (excluding Health Insurance)": [
+      "Medical & Health (excluding Health Insurance)",
+      "Medical & Health",
+      "Doctor, Dentist, Pharmacy, Glasses",
+      "Medical Expenses",
+      "Health Expenses",
+      "Doctor",
+      "Dentist",
+      "Pharmacy"
+    ],
+    "Other Regular and Recurring Expenses": [
+      "Other Regular and Recurring Expenses",
+      "Other Regular Expenses",
+      "Other Expenses",
+      "Miscellaneous"
+    ],
+    "Recreation & Entertainment": [
+      "Recreation & Entertainment",
+      "Recreation and entertainment",
+      "Entertainment",
+      "Recreation",
+      "Leisure",
+      "Hobbies"
+    ],
+    "Telephone, Internet, Pay TV & Media Streaming Subscriptions": [
+      "Telephone, Internet, Pay TV & Media Streaming Subscriptions",
+      "Phone / Streaming Services / Internet",
+      "Phone",
+      "Internet",
+      "Streaming Services",
+      "Pay TV",
+      "Netflix",
+      "Spotify",
+      "Mobile Phone"
+    ]
+  },
+  "fallback_strategy": "fuzzy_match",
+  "fuzzy_match_threshold": 80,
+  "case_sensitive": false
+}

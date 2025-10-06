@@ -1,9 +1,11 @@
 # Connective CRM - Complete System Reference
 
-**Last Updated**: 2025-10-04
-**Total Elements**: 74
+**Last Updated**: 2025-10-06
+**Total Elements**: 90
 **Sections**: 8
 **Validated Workflows**: 3
+**Dropdown Fields**: 22
+**Field Mappings**: 9 (expense, lender, agent, property_type, liability_type, asset_type, motor_vehicle_type, asset_value_basis, income_other_type)
 
 ---
 
@@ -34,27 +36,30 @@ This reference contains **complete knowledge** of the Connective CRM loan applic
 
 | Metric | Count |
 |--------|-------|
-| **Total Elements** | 74 |
-| **Buttons** | 43 |
-| **Dropdown Fields (Select)** | 20 |
-| **Text Input Fields** | 6 |
+| **Total Elements** | 90 |
+| **Buttons** | 45 |
+| **Dropdown Fields (Select)** | 22 |
+| **Text Input Fields** | 17 |
+| **Checkboxes** | 1 |
 | **Navigation Tabs** | 3 |
 | **Rich Text Editors** | 1 |
 | **AG-Grid Components** | 1 |
 | **Sections Mapped** | 8 |
 | **Validated Workflows** | 3 |
-| **Total Dropdown Options** | 286+ |
+| **Total Dropdown Options** | 299 |
+| **Field Mappings** | 9 (with 600+ variations) |
 
 ### What This Agent Knows
 
 - **Complete CRM Structure**: All sections, tabs, and navigation
 - **All Interactive Elements**: Every button, input field, dropdown, and control
 - **All Selectors**: data-testid, ID, class, and best-practice selectors for each element
-- **Complete Dropdown Options**: All 54 lenders, 63 property types, 19 agents, etc.
+- **Complete Dropdown Options**: All 54 lenders, 63 property types, 19 agents, 18 asset types, etc.
 - **Validated Workflows**: Step-by-step instructions for common tasks
 - **Modal Behavior**: Which elements trigger modals and their dependencies
 - **Hidden Elements**: Elements that appear only after triggers
 - **Framework Detection**: Froala editors, AG-Grid, React-Select components
+- **Conditional Fields**: Motor Vehicle type dropdown (appears when Motor Vehicle asset selected)
 
 ---
 
@@ -144,7 +149,7 @@ file_input.send_keys(r"C:\path\to\document.pdf")
 ### Financials Section
 
 **Purpose**: Comprehensive financial assessment including assets, liabilities, expenses
-**Total Elements**: 38
+**Total Elements**: 54
 
 #### Navigation Buttons (4)
 
@@ -201,20 +206,57 @@ file_input.send_keys(r"C:\path\to\document.pdf")
 | **limit** | `#limit` | Credit limit |
 | **accountRepaymentFrequency** | `#accountRepaymentFrequency` | 5 frequency options |
 
-#### Liability Fields (3)
+#### Liability Fields (12)
 
 | Element | Type | Selector | Options/Purpose |
 |---------|------|----------|-----------------|
-| **name** | select | `#name` | 19 liability types |
-| **priority** | select | `#priority` | 4 priority options |
-| **accountClearingFromLoan** | input | `[name="accountClearingFromLoan"]` | Clearing checkbox |
+| **liabilityType** | select | `#name` | 18 liability types |
+| **institution** | input | `#institution` | Financial institution name |
+| **accountName** | input | `#accountName` | Account name/description |
+| **accountBSB** | input | `#accountBSB` | BSB number (optional) |
+| **accountNumber** | input | `#accountNumber` | Account number (optional) |
+| **balance** | input | `#value` | Current outstanding balance |
+| **limit** | input | `#limit` | Credit limit or approved amount |
+| **repaymentAmount** | input | `#accountRepayment` | Regular repayment amount |
+| **repaymentFrequency** | select | `#accountRepaymentFrequency` | 4 frequency options (annually, monthly, fortnightly, weekly) |
+| **accountClearingFromLoan** | checkbox | `[name="accountClearingFromLoan"]` | Clearing from this loan checkbox |
+| **securityLink** | button | (Security Details/Link Assets) | Link/unlink assets to liability |
+| **ownershipAllocation** | button | `.dropdown-item` | Ownership options (dual applications) |
 
-#### Other Income Fields (2)
+**Note**: See [Liabilities Guide](./sections/liabilities.md) for detailed automation workflows and field mappings.
 
-| Element | Type | Selector | Options |
-|---------|------|----------|---------|
-| **frequency** | select | `#frequency` | 5 frequency options |
-| **type** | select | `#type` | 5 income types |
+#### Other Assets Fields (7)
+
+| Element | Type | Selector | Options/Purpose |
+|---------|------|----------|-----------------|
+| **addAssetButton** | button | `[data-testid="Add"]` | Add new asset row (triggers form) |
+| **assetType** | select | `select[data-testid="asset-type-{index}"]` | 18 asset types (index starts at 0) |
+| **assetName** | input | `#name` | Asset name/description |
+| **assetValue** | input | `#value`, `input[name="value"]`, `input[data-field-type="currency"]` | Currency input, right-aligned, placeholder "0.00" |
+| **assetValueBasis** | select | `#valueBasis` | 3 value basis options |
+| **vehicleType** | select | `#vehicleType` | 7 vehicle types (conditional - Motor Vehicle only) |
+| **ownershipAllocation** | button | `[text*="Allocate Evenly"]` | Ownership allocation (dual applications) |
+
+**Important**: Each asset row gets an indexed data-testid (e.g., `asset-type-0` for first asset, `asset-type-1` for second). The Add button has a UUID-based ID that changes, so always use `[data-testid="Add"]`.
+
+**Fields NOT in Assets-Other Form**:
+- **Financial Institution**: While Excel may have an "Institution" column for assets, the Connective "Assets - Other" section does NOT capture which financial institution holds the asset. This field appears in other sections:
+  - ✅ Liabilities section (`#institution` - which bank the debt is with)
+  - ✅ Real Estate section (for linked mortgage details)
+  - ❌ Assets - Other section (no institution field)
+- **Automation Note**: Skip Excel's "Asset_Institution" column when filling Assets-Other forms.
+
+**Note**: See [Assets - Other Guide](./sections/assets_other.md) for detailed automation workflows.
+
+#### Other Income Fields (3)
+
+| Element | Type | Selector | Options/Purpose |
+|---------|------|----------|-----------------|
+| **incomeType** | select | `#type` | 4 income types (Dividends, Family Allowance, Maintenance, Other) |
+| **frequency** | select | `#frequency` | 4 frequency options (Annual, Monthly, Fortnightly, Weekly) |
+| **amount** | input | `#amount` | Income amount (currency) |
+
+**Note**: See [Other Income Guide](./sections/other_income.md) for detailed automation workflows.
 
 #### Additional Components (3)
 
@@ -534,9 +576,9 @@ time.sleep(3)
 19. Tristan Cleggett
 ```
 
-### 4. Liability Type (19 options)
+### 4. Liability Type (18 options)
 **Selector**: `#name`
-**Section**: Financials
+**Section**: Financials - Liabilities
 
 ```
 1.  Buy Now Pay Later
@@ -546,11 +588,11 @@ time.sleep(3)
 5.  HECS
 6.  Hire Purchase
 7.  Lease
-8.  Line Of Credit
-9.  Loan As Guarantor
-10. Mortgage Loan
-11. Other Loan
-12. Outstanding Taxation
+8.  Line of Credit
+9.  Loan as Guarantor
+10. Mortgage
+11. Loan ATO
+12. Loan Outstanding Taxation
 13. Overdraft
 14. Personal Loan
 15. Business Loan
@@ -558,6 +600,8 @@ time.sleep(3)
 17. Term Loan
 18. Other
 ```
+
+**Note**: See [Liabilities Guide](./sections/liabilities.md) for detailed automation workflows and field mappings.
 
 ### 5. Person Responsible (15 options)
 **Selector**: `#personResponsible`
@@ -668,9 +712,9 @@ time.sleep(3)
 4. Weekly
 ```
 
-### 11. Income/Other Type (5 options)
+### 11. Income/Other Type (4 options)
 **Selector**: `#type`
-**Section**: Financials
+**Section**: Financials - Other Income
 
 ```
 1. Dividends
@@ -678,6 +722,8 @@ time.sleep(3)
 3. Maintenance
 4. Other
 ```
+
+**Note**: See [Other Income Guide](./sections/other_income.md) for detailed automation workflows.
 
 ### 12. Property Status (5 options)
 **Selector**: `#propertyStatus`
@@ -761,6 +807,100 @@ time.sleep(3)
 Format: CA109034:James Larkey (CA number followed by name)
 Options are dynamically populated based on active users
 ```
+
+### 20. Living Expense Category (21 options)
+**Selector**: `button.dropdown-toggle:has-text('Living Expense')`
+**Section**: Financials - Living Expenses
+
+```
+1.  Transport
+2.  Rent
+3.  Board
+4.  Groceries
+5.  Childcare
+6.  Child & Spouse Maintenance
+7.  Clothing & Personal Care
+8.  Public or Government Primary & Secondary Education
+9.  Higher Education & Vocational Training (excluding HECS/HELP)
+10. Private & Non-Government Education
+11. General Insurance (Including Home & Contents on Primary O/Occ Residence)
+12. Personal Insurance (Life, Health, Sickness and Personal Accident)
+13. Other Insurances
+14. Investment Property Costs (including Insurance)
+15. Primary Residence Costs (excluding Insurance)
+16. Secondary Residence & Holiday Home Costs (including Insurance)
+17. O/Occ Strata, Body Corporate, Land Tax
+18. Medical & Health (excluding Health Insurance)
+19. Other Regular and Recurring Expenses
+20. Recreation & Entertainment
+21. Telephone, Internet, Pay TV & Media Streaming Subscriptions
+```
+
+**Note**: This is a dynamic dropdown - clicking the trigger button adds a new expense row. Each row requires: Category (dropdown), Frequency (dropdown), Amount (text input).
+
+### 21. Asset Type (18 options)
+**Selector**: `select[data-testid="asset-type-{index}"]` (where index = 0, 1, 2... for each asset row)
+**Alternative Selector**: `#name` (less specific, may conflict with other fields)
+**Section**: Financials - Assets - Other
+
+```
+1.  Boat
+2.  Business Equity
+3.  Cash Management
+4.  Charge over Cash
+5.  Cheque Account
+6.  Debenture Charge
+7.  Gifts
+8.  Guarantee
+9.  Home Contents
+10. Investment Savings
+11. Life Insurance
+12. Managed Funds
+13. Motor Vehicle
+14. Other
+15. Savings Account
+16. Shares
+17. Superannuation
+18. Term Deposit
+```
+
+**Usage Notes**:
+- **First asset**: `select[data-testid="asset-type-0"]`
+- **Second asset**: `select[data-testid="asset-type-1"]`
+- **Add button**: `[data-testid="Add"]` (click to create new asset row)
+- **Conditional dropdown**: Selecting "Motor Vehicle" reveals vehicle type dropdown (see #23)
+- **Element type**: Standard `<select>` dropdown with options as shown above
+
+### 22. Asset Value Basis (3 options)
+**Selector**: `#valueBasis`
+**Section**: Financials - Assets - Other
+
+```
+1. Applicant Estimate
+2. Certified Valuation
+3. Actual Value
+```
+
+**Usage Guidelines**:
+- **Applicant Estimate**: Client-provided value without formal documentation (personal items, boats, gifts)
+- **Certified Valuation**: Professional valuation obtained (business equity, managed funds)
+- **Actual Value**: Exact current value known (bank accounts, term deposits, shares)
+
+### 23. Motor Vehicle Type (7 options)
+**Selector**: `#vehicleType`
+**Section**: Financials - Assets - Other
+
+```
+1. Bike
+2. Large
+3. Luxury Car
+4. 4WD
+5. Medium
+6. Small
+7. Small Medium
+```
+
+**Note**: This is a conditional dropdown that only appears when "Motor Vehicle" is selected as the Asset Type.
 
 ---
 

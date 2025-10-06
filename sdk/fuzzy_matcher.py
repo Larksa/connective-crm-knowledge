@@ -47,20 +47,23 @@ class FuzzyMatcher:
         "YEAR": "Annual"
     }
 
-    def __init__(self, min_confidence: float = 80.0):
+    def __init__(self, min_confidence: float = 80.0, field_mappings: dict = None):
         """
         Initialize fuzzy matcher
 
         Args:
             min_confidence: Minimum confidence threshold (0-100) for matches
+            field_mappings: Optional field-specific mappings from reference_loader
         """
         self.min_confidence = min_confidence
+        self.field_mappings = field_mappings or {}
 
     def match(
         self,
         value: str,
         options: List[str],
-        use_abbreviations: bool = True
+        use_abbreviations: bool = True,
+        field_name: str = None
     ) -> FuzzyMatchResult:
         """
         Find best match for a value in a list of options
@@ -69,6 +72,7 @@ class FuzzyMatcher:
             value: Input value to match
             options: List of valid options
             use_abbreviations: Whether to check abbreviation dict first
+            field_name: Optional field name for field-specific mapping lookup
 
         Returns:
             FuzzyMatchResult with best match and confidence
@@ -90,7 +94,28 @@ class FuzzyMatcher:
                     is_exact=True
                 )
 
-        # Check abbreviations dictionary
+        # Check field-specific mappings FIRST (from JSON mapping files)
+        # Normalize field_name: lowercase and replace spaces with underscores
+        normalized_field_name = field_name.lower().replace(' ', '_').replace('/', '_') if field_name else None
+
+        if normalized_field_name and normalized_field_name in self.field_mappings:
+            mapping_data = self.field_mappings[normalized_field_name]
+            mappings = mapping_data.get("mappings", {})
+
+            # Search through mappings for value
+            for crm_value, excel_variations in mappings.items():
+                # Check if value matches any variation (case-insensitive)
+                for variation in excel_variations:
+                    if value.strip().lower() == variation.strip().lower():
+                        # Found in mappings - return with 100% confidence
+                        return FuzzyMatchResult(
+                            original_value=value,
+                            matched_value=crm_value,
+                            confidence=100.0,
+                            is_exact=True
+                        )
+
+        # Check abbreviations dictionary (fallback)
         if use_abbreviations:
             value_upper = value.strip().upper()
             if value_upper in self.ABBREVIATIONS:

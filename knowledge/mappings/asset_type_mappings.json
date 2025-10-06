@@ -1,0 +1,44 @@
+{
+  "description": "Maps asset type variations to Connective CRM dropdown values (18 asset types)",
+  "mappings": {
+    "Boat": ["Boat", "Watercraft", "Yacht", "Vessel", "Marine"],
+    "Business Equity": ["Business Equity", "Business Share", "Business Stake", "Company Equity", "Business Interest"],
+    "Cash Management": ["Cash Management", "Cash Mgmt", "Cash Account", "Cash Management Account", "CMA"],
+    "Charge over Cash": ["Charge over Cash", "Cash Charge", "Charge Cash"],
+    "Cheque Account": ["Cheque Account", "Checking Account", "Check Account", "Chq Account", "Cheque Acct"],
+    "Debenture Charge": ["Debenture Charge", "Debenture", "Debt Charge"],
+    "Gifts": ["Gifts", "Gift", "Cash Gift", "Financial Gift"],
+    "Guarantee": ["Guarantee", "Bank Guarantee", "Financial Guarantee", "Personal Guarantee"],
+    "Home Contents": ["Home Contents", "Contents", "Household Contents", "Home & Contents", "Household Items"],
+    "Investment Savings": ["Investment Savings", "Investment Acct", "Investment Account", "Savings Investment", "Inv Savings"],
+    "Life Insurance": ["Life Insurance", "Life Cover", "Life Policy", "Term Life", "Life Assurance"],
+    "Managed Funds": ["Managed Funds", "Managed Fund", "Investment Fund", "Unit Trust", "Mutual Fund"],
+    "Motor Vehicle": ["Motor Vehicle", "Vehicle", "Car", "Auto", "Automobile", "MV"],
+    "Other": ["Other", "Miscellaneous", "Misc", "Other Asset"],
+    "Savings Account": ["Savings Account", "Savings Acct", "Savings", "Sav Account", "Sav Acct"],
+    "Shares": ["Shares", "Stock", "Equity", "Share Portfolio", "Stocks", "ASX Shares"],
+    "Superannuation": ["Superannuation", "Super", "Retirement Fund", "Pension Fund", "Superann"],
+    "Term Deposit": ["Term Deposit", "TD", "Fixed Deposit", "Time Deposit", "Term Dep"]
+  },
+  "vehicle_types": {
+    "Bike": ["Bike", "Motorcycle", "Motorbike", "Bicycle", "Two-Wheeler"],
+    "Large": ["Large", "Large Vehicle", "Truck", "Van"],
+    "Luxury Car": ["Luxury Car", "Luxury", "Premium Car", "High-End Car", "Prestige Car"],
+    "4WD": ["4WD", "Four Wheel Drive", "4x4", "SUV", "Off-Road"],
+    "Medium": ["Medium", "Medium Car", "Sedan", "Mid-Size"],
+    "Small": ["Small", "Small Car", "Compact", "Hatchback"],
+    "Small Medium": ["Small Medium", "Small-Medium", "Small to Medium", "Intermediate"]
+  },
+  "value_basis": {
+    "Applicant Estimate": ["Applicant Estimate", "Estimate", "Client Estimate", "Applicant Est"],
+    "Certified Valuation": ["Certified Valuation", "Certified Val", "Professional Valuation", "Cert Valuation", "Certified"],
+    "Actual Value": ["Actual Value", "Actual", "True Value", "Current Value", "Market Value"]
+  },
+  "fallback_strategy": "fuzzy_match",
+  "fuzzy_match_threshold": 80,
+  "case_sensitive": false,
+  "notes": {
+    "conditional_field": "Motor Vehicle triggers additional vehicle_type dropdown",
+    "value_basis_usage": "Applicant Estimate (personal items), Certified Valuation (business/investments), Actual Value (accounts/shares)"
+  }
+}

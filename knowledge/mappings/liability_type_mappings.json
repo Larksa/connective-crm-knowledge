@@ -1,0 +1,30 @@
+{
+  "description": "Maps liability type variations to Connective CRM dropdown values (18 liability types)",
+  "mappings": {
+    "Buy Now Pay Later": ["Buy Now Pay Later", "BNPL", "Afterpay", "Zip Pay", "Zip", "Klarna", "Buy Now Pay Later"],
+    "Car Loan": ["Car Loan", "Vehicle Loan", "Auto Loan", "Car Finance", "Vehicle Finance"],
+    "Commercial Bill": ["Commercial Bill", "Comm Bill", "Business Bill", "Trade Bill"],
+    "Credit Card": ["Credit Card", "CC", "Visa", "Mastercard", "Amex", "Card"],
+    "HECS": ["HECS", "HECS-HELP", "HELP", "Student Debt", "Student Loan", "Education Debt"],
+    "Hire Purchase": ["Hire Purchase", "HP", "Hire Purch"],
+    "Lease": ["Lease", "Equipment Lease", "Vehicle Lease", "Car Lease"],
+    "Line of Credit": ["Line of Credit", "Line Of Credit", "LOC", "Credit Line", "Line Credit"],
+    "Loan as Guarantor": ["Loan as Guarantor", "Loan As Guarantor", "Guarantor Loan", "Guarantee Loan"],
+    "Mortgage": ["Mortgage", "Home Loan", "Property Loan", "Mortgage Loan", "Housing Loan"],
+    "Loan ATO": ["Loan ATO", "ATO Loan", "Tax Office Loan", "ATO Debt", "ATO Payment Plan"],
+    "Loan Outstanding Taxation": ["Loan Outstanding Taxation", "Outstanding Tax", "Tax Debt", "Taxation Debt", "Outstanding Taxation"],
+    "Overdraft": ["Overdraft", "OD", "Bank Overdraft", "Account Overdraft"],
+    "Personal Loan": ["Personal Loan", "PL", "Unsecured Loan"],
+    "Business Loan": ["Business Loan", "Commercial Loan", "Business Finance"],
+    "Store Card": ["Store Card", "Retail Card", "Department Store Card"],
+    "Term Loan": ["Term Loan", "Fixed Term Loan"],
+    "Other": ["Other", "Miscellaneous", "Other Liability", "Misc"]
+  },
+  "fallback_strategy": "fuzzy_match",
+  "fuzzy_match_threshold": 80,
+  "case_sensitive": false,
+  "notes": {
+    "clearing_checkbox": "Use [name='accountClearingFromLoan'] selector for clearing checkbox",
+    "frequency_values": "Use lowercase values: annually, monthly, fortnightly, weekly"
+  }
+}

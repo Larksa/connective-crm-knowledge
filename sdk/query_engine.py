@@ -51,16 +51,22 @@ class CRMReference:
 
         self.reference_path = reference_path
         self.loader = ReferenceLoader(reference_path)
-        self.fuzzy_matcher = FuzzyMatcher(min_confidence=80.0)
 
-        # Parse the reference
+        # Parse the reference (includes loading field mappings)
         self.loader.parse()
+
+        # Initialize fuzzy matcher with field mappings
+        self.fuzzy_matcher = FuzzyMatcher(
+            min_confidence=80.0,
+            field_mappings=self.loader.field_mappings
+        )
 
         # Quick access to parsed data
         self.elements = self.loader.elements
         self.workflows = self.loader.workflows
         self.sections = self.loader.sections
         self.dropdown_fields = self.loader.dropdown_fields
+        self.field_mappings = self.loader.field_mappings
 
     def get_selector(self, field_name: str) -> Optional[Element]:
         """
@@ -152,7 +158,12 @@ class CRMReference:
                 confidence=0.0
             )
 
-        result = self.fuzzy_matcher.match(value, options)
+        # Pass field_name to enable field-specific mapping lookup
+        result = self.fuzzy_matcher.match(
+            value,
+            options,
+            field_name=field_name
+        )
 
         if not auto_correct:
             # Keep original value in the result but show what it matched to
@@ -345,6 +356,8 @@ class CRMReference:
                 len(options) for options in
                 [elem.options for elem in self.elements.values() if elem.options]
             ),
+            "total_field_mappings": len(self.field_mappings),
+            "field_mappings_loaded": list(self.field_mappings.keys()),
             "sections": list(self.sections.keys()),
             "workflows": list(self.workflows.keys())
         }

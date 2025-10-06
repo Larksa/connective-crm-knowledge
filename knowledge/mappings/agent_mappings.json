@@ -1,0 +1,27 @@
+{
+  "description": "Maps Excel agent/broker names to Connective CRM dropdown values (19 agents)",
+  "mappings": {
+    "Benjamin Hawley": ["Benjamin Hawley", "Ben Hawley", "B Hawley"],
+    "Thomas Hawley": ["Thomas Hawley", "Tom Hawley", "T Hawley"],
+    "Avril Clutterbuck": ["Avril Clutterbuck", "A Clutterbuck"],
+    "Benjamin Ringer": ["Benjamin Ringer", "Ben Ringer", "B Ringer"],
+    "Corey Wild": ["Corey Wild", "C Wild"],
+    "Dean Joffe": ["Dean Joffe", "D Joffe"],
+    "Dom Dzakula": ["Dom Dzakula", "D Dzakula"],
+    "Elia Theodore": ["Elia Theodore", "E Theodore"],
+    "Harrison Favetti": ["Harrison Favetti", "H Favetti"],
+    "James Curtis": ["James Curtis", "J Curtis"],
+    "James Ryan": ["James Ryan", "J Ryan"],
+    "Max Connley": ["Max Connley", "M Connley"],
+    "Maximilian Harris": ["Maximilian Harris", "Max Harris", "M Harris"],
+    "Nicholas OSullivan": ["Nicholas OSullivan", "Nicholas O'Sullivan", "Nick OSullivan", "Nick O'Sullivan", "N OSullivan"],
+    "Oliver Studdy": ["Oliver Studdy", "O Studdy"],
+    "Reuben Way": ["Reuben Way", "R Way"],
+    "Thomas Dunkley": ["Thomas Dunkley", "Tom Dunkley", "T Dunkley"],
+    "Timothy Perry": ["Timothy Perry", "Tim Perry", "T Perry"],
+    "Tristan Cleggett": ["Tristan Cleggett", "T Cleggett"]
+  },
+  "fallback_strategy": "fuzzy_match",
+  "fuzzy_match_threshold": 85,
+  "case_sensitive": false
+}

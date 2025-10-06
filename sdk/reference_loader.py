@@ -6,6 +6,7 @@ COMPLETE_CONNECTIVE_CRM_REFERENCE.md file.
 """
 
 import re
+import json
 from pathlib import Path
 from typing import Dict, List, Tuple
 from .models import (
@@ -32,6 +33,7 @@ class ReferenceLoader:
             reference_path: Path to COMPLETE_CONNECTIVE_CRM_REFERENCE.md
         """
         self.reference_path = reference_path
+        self.knowledge_dir = reference_path.parent  # knowledge/ directory
         self.content = self._load_file()
 
         # Parsed data
@@ -39,6 +41,9 @@ class ReferenceLoader:
         self.workflows: Dict[str, Workflow] = {}
         self.sections: Dict[str, Section] = {}
         self.dropdown_fields: Dict[str, DropdownField] = {}
+
+        # Field mappings (loaded from JSON files)
+        self.field_mappings: Dict[str, Dict] = {}
 
     def _load_file(self) -> str:
         """Load markdown file content"""
@@ -54,6 +59,7 @@ class ReferenceLoader:
         self._parse_elements()
         self._parse_dropdown_options()
         self._parse_workflows()
+        self._load_field_mappings()
 
     def _parse_sections(self):
         """Extract section information"""
@@ -280,6 +286,56 @@ class ReferenceLoader:
             validated=True
         )
 
+    def _load_field_mappings(self):
+        """Load field mapping JSON files for fuzzy matching"""
+        mappings_dir = self.knowledge_dir / "mappings"
+
+        if not mappings_dir.exists():
+            # Mappings directory doesn't exist yet, skip
+            return
+
+        # Mapping files to load
+        mapping_files = [
+            "expense_mappings.json",
+            "lender_mappings.json",
+            "agent_mappings.json",
+            "property_type_mappings.json",
+            "liability_type_mappings.json",
+            "asset_type_mappings.json",
+            "motor_vehicle_type_mappings.json",
+            "asset_value_basis_mappings.json",
+            "income_other_type_mappings.json"
+        ]
+
+        for mapping_file in mapping_files:
+            file_path = mappings_dir / mapping_file
+            if file_path.exists():
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        # Extract field name from filename (e.g., "expense_mappings.json" -> "expense")
+                        field_name = mapping_file.replace("_mappings.json", "")
+                        self.field_mappings[field_name] = data
+                except Exception as e:
+                    # Log warning but continue
+                    print(f"Warning: Could not load {mapping_file}: {e}")
+
+    def get_field_mapping(self, field_name: str) -> Dict:
+        """
+        Get mapping data for a specific field
+
+        Args:
+            field_name: Name of the field (e.g., 'expense', 'lender', 'agent')
+
+        Returns:
+            Mapping dictionary or empty dict if not found
+        """
+        return self.field_mappings.get(field_name, {})
+
+    def get_all_mappings(self) -> Dict[str, Dict]:
+        """Get all loaded field mappings"""
+        return self.field_mappings
+
     def get_summary(self) -> Dict:
         """Get summary statistics"""
         return {
@@ -289,5 +345,6 @@ class ReferenceLoader:
             "total_dropdown_fields": len(self.dropdown_fields),
             "total_dropdown_options": sum(
                 len(df.options) for df in self.dropdown_fields.values()
-            )
+            ),
+            "total_field_mappings": len(self.field_mappings)
         }
