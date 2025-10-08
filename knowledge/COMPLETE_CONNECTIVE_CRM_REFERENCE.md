@@ -1,9 +1,9 @@
 # Connective CRM - Complete System Reference
 
-**Last Updated**: 2025-10-06
-**Total Elements**: 90
+**Last Updated**: 2025-10-08
+**Total Elements**: 91
 **Sections**: 8
-**Validated Workflows**: 3
+**Validated Workflows**: 4
 **Dropdown Fields**: 22
 **Field Mappings**: 9 (expense, lender, agent, property_type, liability_type, asset_type, motor_vehicle_type, asset_value_basis, income_other_type)
 
@@ -36,8 +36,8 @@ This reference contains **complete knowledge** of the Connective CRM loan applic
 
 | Metric | Count |
 |--------|-------|
-| **Total Elements** | 90 |
-| **Buttons** | 45 |
+| **Total Elements** | 91 |
+| **Buttons** | 46 |
 | **Dropdown Fields (Select)** | 22 |
 | **Text Input Fields** | 17 |
 | **Checkboxes** | 1 |
@@ -45,7 +45,7 @@ This reference contains **complete knowledge** of the Connective CRM loan applic
 | **Rich Text Editors** | 1 |
 | **AG-Grid Components** | 1 |
 | **Sections Mapped** | 8 |
-| **Validated Workflows** | 3 |
+| **Validated Workflows** | 4 |
 | **Total Dropdown Options** | 299 |
 | **Field Mappings** | 9 (with 600+ variations) |
 
@@ -149,7 +149,7 @@ file_input.send_keys(r"C:\path\to\document.pdf")
 ### Financials Section
 
 **Purpose**: Comprehensive financial assessment including assets, liabilities, expenses
-**Total Elements**: 54
+**Total Elements**: 55
 
 #### Navigation Buttons (4)
 
@@ -248,15 +248,30 @@ file_input.send_keys(r"C:\path\to\document.pdf")
 
 **Note**: See [Assets - Other Guide](./sections/assets_other.md) for detailed automation workflows.
 
-#### Other Income Fields (3)
+#### Other Income Fields (4)
 
 | Element | Type | Selector | Options/Purpose |
 |---------|------|----------|-----------------|
+| **addIncomeButton** | button | `[data-testid="Add"]` | Add new income entry (triggers inline form) |
 | **incomeType** | select | `#type` | 4 income types (Dividends, Family Allowance, Maintenance, Other) |
 | **frequency** | select | `#frequency` | 4 frequency options (Annual, Monthly, Fortnightly, Weekly) |
 | **amount** | input | `#amount` | Income amount (currency) |
 
-**Note**: See [Other Income Guide](./sections/other_income.md) for detailed automation workflows.
+**Important Selector Notes**:
+- **Add Button**: Use `[data-testid="Add"]` (stable) NOT `#btn_[UUID]` (dynamic, changes per session)
+- **Income Type**: Use `#type` (stable ID) NOT `[data-testid="income-type-{UUID}"]` (UUID changes per row)
+- **Form Auto-Save**: No explicit save button; wait 2 seconds after amount entry
+- **Multiple Entries**: Each Add click creates a new form row with the same stable IDs (#type, #frequency, #amount)
+
+**Validated Workflow** (2025-10-08 recording):
+1. Navigate: `#financials` → `#incomes` (wait 2 seconds)
+2. Add entry: `[data-testid="Add"]` (wait 1 second)
+3. Select type: `#type` (wait 0.5 seconds)
+4. Select frequency: `#frequency` (wait 0.5 seconds)
+5. Enter amount: `#amount` (wait 2 seconds for auto-save)
+6. Repeat steps 2-5 for additional income sources
+
+**Note**: See [Other Income Guide](./sections/other_income.md) and [2025-10-08 Update](./sections/other_income_update_2025-10-08.md) for detailed automation workflows.
 
 #### Additional Components (3)
 
@@ -1070,6 +1085,468 @@ time.sleep(3)
 # Step 5
 # Expand sections and fill based on questionnaire type
 # (Form structure varies)
+```
+
+---
+
+### Workflow 4: Add Liability Entry
+
+**Status**: Validated
+**Triggers Modal**: No
+**Auto-Save**: Yes (2 second delay)
+**Max Page Load**: 79 seconds
+**Section**: Financials → Liabilities
+
+**Critical Timing Requirements**:
+- Page load timeout: 79 seconds (from recording)
+- Auto-save delay: 2 seconds after final field
+- Field transition: 0.5-1 second between actions
+
+**Steps**:
+
+1. **Navigate to Financials Tab**
+   - Selector: `#financials`
+   - Action: Click
+   - Wait: 1000ms for tab to load
+
+2. **Navigate to Liabilities Sub-Tab**
+   - Selector: `#liabilities`
+   - Action: Click
+   - Wait: 2000ms for section to load
+   - Note: Max page load observed at 79 seconds
+
+3. **Click Add Liability Button**
+   - Selector: `[data-testid="Add"]`
+   - Action: Click
+   - Wait: 1000ms for new row to appear
+   - Note: Use data-testid, NOT #btn_{UUID} (unstable)
+
+4. **Select Liability Type**
+   - Selector: `#name`
+   - Action: Select from dropdown
+   - Options: 18 liability types (Buy Now Pay Later, Car Loan, Credit Card, etc.)
+   - Wait: 1000ms for form to update
+
+5. **Enter Institution**
+   - Selector: `#institution`
+   - Action: Clear and type text
+   - Wait: 500ms
+
+6. **Enter Account Name**
+   - Selector: `#accountName`
+   - Action: Clear and type text
+   - Wait: 500ms
+
+7. **Enter Account BSB (Optional)**
+   - Selector: `#accountBSB`
+   - Action: Clear and type text
+   - Wait: 500ms
+   - Note: Optional field
+
+8. **Enter Account Number (Optional)**
+   - Selector: `#accountNumber`
+   - Action: Clear and type text
+   - Wait: 500ms
+   - Note: Optional field
+
+9. **Enter Balance**
+   - Selector: `#value`
+   - Action: Clear and type text
+   - Wait: 500ms
+   - Note: Current outstanding balance
+
+10. **Enter Limit**
+    - Selector: `#limit`
+    - Action: Clear and type text
+    - Wait: 500ms
+    - Note: Credit limit or approved amount
+
+11. **Enter Repayment Amount**
+    - Selector: `#accountRepayment`
+    - Action: Clear and type text
+    - Wait: 500ms
+
+12. **Select Repayment Frequency**
+    - Selector: `#accountRepaymentFrequency`
+    - Action: Select from dropdown
+    - Options: Annual, Monthly, Fortnightly, Weekly
+    - Values: "annually", "monthly", "fortnightly", "weekly" (lowercase)
+    - Wait: 500ms
+
+13. **Set Priority (Optional)**
+    - Selector: `#priority`
+    - Action: Select from dropdown
+    - Wait: 500ms
+    - Note: New field discovered from jlall.json recording
+
+14. **Check Clearing from Loan (Optional)**
+    - Selector: `[name="accountClearingFromLoan"]`
+    - Action: Click checkbox if applicable
+    - Wait: 2000ms for auto-save
+    - Note: Indicates liability cleared from loan proceeds
+
+**Complete Example**:
+```python
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
+
+# Step 1-2: Navigate to Liabilities
+driver.find_element(By.ID, "financials").click()
+time.sleep(1)
+driver.find_element(By.ID, "liabilities").click()
+time.sleep(2)
+
+# Step 3: Click Add
+driver.find_element(By.CSS_SELECTOR, '[data-testid="Add"]').click()
+time.sleep(1)
+
+# Step 4: Select liability type
+liability_type = Select(driver.find_element(By.ID, "name"))
+liability_type.select_by_visible_text("Credit Card")
+time.sleep(1)
+
+# Step 5-6: Basic info
+driver.find_element(By.ID, "institution").clear()
+driver.find_element(By.ID, "institution").send_keys("Commonwealth Bank")
+time.sleep(0.5)
+
+driver.find_element(By.ID, "accountName").clear()
+driver.find_element(By.ID, "accountName").send_keys("Personal Credit Card")
+time.sleep(0.5)
+
+# Step 9-10: Balance and limit
+driver.find_element(By.ID, "value").clear()
+driver.find_element(By.ID, "value").send_keys("5000")
+time.sleep(0.5)
+
+driver.find_element(By.ID, "limit").clear()
+driver.find_element(By.ID, "limit").send_keys("15000")
+time.sleep(0.5)
+
+# Step 11-12: Repayment
+driver.find_element(By.ID, "accountRepayment").clear()
+driver.find_element(By.ID, "accountRepayment").send_keys("250")
+time.sleep(0.5)
+
+frequency = Select(driver.find_element(By.ID, "accountRepaymentFrequency"))
+frequency.select_by_value("monthly")
+time.sleep(0.5)
+
+# Step 14: Auto-save wait
+time.sleep(2)
+print("Liability entry saved")
+```
+
+---
+
+### Workflow 5: Add Asset (Other)
+
+**Status**: Validated
+**Triggers Modal**: No
+**Auto-Save**: Yes (2 second delay)
+**Section**: Financials → Assets - Other
+**Conditional Fields**: vehicleType (only for Motor Vehicle assets)
+**Selector Stability**: EXCELLENT (from jlall.json recording)
+
+**Critical Notes**:
+- asset-type uses INDEX-BASED data-testid (NOT UUID-based)
+- Pattern: asset-type-0, asset-type-1, asset-type-2 (zero-indexed)
+- vehicleType field appears ONLY when asset type = "Motor Vehicle"
+
+**Steps**:
+
+1. **Navigate to Financials Tab**
+   - Selector: `#financials`
+   - Action: Click
+   - Wait: 1000ms
+
+2. **Navigate to Assets - Other Sub-Tab**
+   - Selector: `#otherAssets`
+   - Action: Click
+   - Wait: 2000ms
+
+3. **Click Add Asset Button**
+   - Selector: `[data-testid="Add"]`
+   - Action: Click
+   - Wait: 1000ms for new row
+
+4. **Select Asset Type**
+   - Selector: `select[data-testid="asset-type-{index}"]`
+   - Action: Select from dropdown
+   - Options: 18 asset types
+   - Note: Replace {index} with 0 for first asset, 1 for second, etc.
+   - Wait: 1000ms
+   - Verified: Index-based pattern from jlall.json recording
+
+5. **Enter Asset Name/Description**
+   - Selector: `#name`
+   - Action: Clear and type text
+   - Wait: 500ms
+
+6. **Enter Asset Value**
+   - Selector: `#value`
+   - Action: Clear and type text
+   - Wait: 500ms
+   - Note: Currency format, right-aligned
+
+7. **Select Value Basis**
+   - Selector: `#valueBasis`
+   - Action: Select from dropdown
+   - Options: Applicant Estimate, Certified Valuation, Actual Value
+   - Wait: 2000ms for auto-save
+   - Verified: Selector confirmed stable from jlall.json recording
+
+8. **Select Vehicle Type (Conditional)**
+   - Selector: `#vehicleType`
+   - Action: Select from dropdown (ONLY if asset type = "Motor Vehicle")
+   - Options: Car, Motorcycle, Boat, Caravan, Truck, Other, Trailer
+   - Wait: 2000ms for auto-save
+   - Note: Field only appears for Motor Vehicle assets
+
+**Complete Example (Standard Asset)**:
+```python
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
+
+# Step 1-2: Navigate to Assets - Other
+driver.find_element(By.ID, "financials").click()
+time.sleep(1)
+driver.find_element(By.ID, "otherAssets").click()
+time.sleep(2)
+
+# Step 3: Click Add
+driver.find_element(By.CSS_SELECTOR, '[data-testid="Add"]').click()
+time.sleep(1)
+
+# Step 4: Select asset type (first asset = index 0)
+asset_type = Select(driver.find_element(By.CSS_SELECTOR, '[data-testid="asset-type-0"]'))
+asset_type.select_by_visible_text("Boat")
+time.sleep(1)
+
+# Step 5: Enter name
+driver.find_element(By.ID, "name").clear()
+driver.find_element(By.ID, "name").send_keys("Boston Whaler 230")
+time.sleep(0.5)
+
+# Step 6: Enter value
+driver.find_element(By.ID, "value").clear()
+driver.find_element(By.ID, "value").send_keys("75000")
+time.sleep(0.5)
+
+# Step 7: Select value basis
+value_basis = Select(driver.find_element(By.ID, "valueBasis"))
+value_basis.select_by_visible_text("Applicant Estimate")
+time.sleep(2)  # Auto-save
+
+print("Asset entry saved")
+```
+
+**Complete Example (Motor Vehicle with Conditional Field)**:
+```python
+# Steps 1-4: Same as above, but select "Motor Vehicle"
+asset_type = Select(driver.find_element(By.CSS_SELECTOR, '[data-testid="asset-type-0"]'))
+asset_type.select_by_visible_text("Motor Vehicle")
+time.sleep(1)
+
+# Step 5-6: Name and value
+driver.find_element(By.ID, "name").clear()
+driver.find_element(By.ID, "name").send_keys("2020 Toyota Camry")
+time.sleep(0.5)
+
+driver.find_element(By.ID, "value").clear()
+driver.find_element(By.ID, "value").send_keys("35000")
+time.sleep(0.5)
+
+# Step 7: Value basis
+value_basis = Select(driver.find_element(By.ID, "valueBasis"))
+value_basis.select_by_visible_text("Market Value")
+time.sleep(0.5)
+
+# Step 8: Vehicle type (conditional - only appears for Motor Vehicle)
+vehicle_type = Select(driver.find_element(By.ID, "vehicleType"))
+vehicle_type.select_by_visible_text("Car")
+time.sleep(2)  # Auto-save
+
+print("Motor vehicle entry saved")
+```
+
+---
+
+### Workflow 6: Add Living Expense Entry
+
+**Status**: Validated
+**Triggers Modal**: No
+**Auto-Save**: Yes (2 second delay)
+**Section**: Financials → Living Expenses
+**Shared Selectors**: Uses same #frequency and #amount as Other Income
+
+**Critical Notes**:
+- Identical field selectors to Other Income section
+- 22+ expense categories available
+- Universal pattern across all categories
+- Auto-save after amount entry (no submit button)
+
+**Steps**:
+
+1. **Navigate to Financials Tab**
+   - Selector: `#financials`
+   - Action: Click
+   - Wait: 1000ms
+
+2. **Navigate to Living Expenses Sub-Tab**
+   - Selector: `#livingExpenses`
+   - Action: Click
+   - Wait: 2000ms
+
+3. **Click Add Expense Button**
+   - Selector: `[data-testid="Add"]`
+   - Action: Click
+   - Wait: 1000ms
+
+4. **Select Expense Category**
+   - Selector: Category-specific (varies by expense type)
+   - Action: Select from dropdown
+   - Options: 22 categories (Groceries, Utilities, Childcare, etc.)
+   - Wait: 500ms
+   - Note: Refer to living_expenses.md for category-specific selectors
+
+5. **Select Frequency**
+   - Selector: `#frequency`
+   - Action: Select from dropdown
+   - Options: Annual, Monthly, Fortnightly, Weekly
+   - Wait: 500ms
+   - Verified: Selector confirmed from jlall.json recording
+
+6. **Enter Amount**
+   - Selector: `#amount`
+   - Action: Clear and type text
+   - Wait: 2000ms for auto-save
+   - Note: Currency format
+   - Verified: Selector confirmed from jlall.json recording
+
+**Complete Example**:
+```python
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
+
+# Step 1-2: Navigate to Living Expenses
+driver.find_element(By.ID, "financials").click()
+time.sleep(1)
+driver.find_element(By.ID, "livingExpenses").click()
+time.sleep(2)
+
+# Step 3: Click Add
+driver.find_element(By.CSS_SELECTOR, '[data-testid="Add"]').click()
+time.sleep(1)
+
+# Step 4: Select category (example: Groceries)
+# Note: Selector varies by category - see living_expenses.md
+expense_category = Select(driver.find_element(By.ID, "expenseType"))
+expense_category.select_by_visible_text("Groceries")
+time.sleep(0.5)
+
+# Step 5: Select frequency
+frequency = Select(driver.find_element(By.ID, "frequency"))
+frequency.select_by_visible_text("Monthly")
+time.sleep(0.5)
+
+# Step 6: Enter amount
+driver.find_element(By.ID, "amount").clear()
+driver.find_element(By.ID, "amount").send_keys("1500")
+time.sleep(2)  # Auto-save
+
+print("Living expense entry saved")
+```
+
+---
+
+### Workflow 7: Add Other Income Entry
+
+**Status**: Validated
+**Triggers Modal**: No
+**Auto-Save**: Yes (2 second delay)
+**Section**: Financials → Other Income
+**Shared Selectors**: Uses same #frequency and #amount as Living Expenses
+**Selector Stability**: EXCELLENT
+
+**Critical Notes**:
+- Simplest workflow (only 3 form fields)
+- Use #type selector, NOT data-testid (contains UUID)
+- [data-testid="Add"] is stable for Add button
+- Auto-save after amount entry
+
+**Steps**:
+
+1. **Navigate to Financials Tab**
+   - Selector: `#financials`
+   - Action: Click
+   - Wait: 1000ms
+
+2. **Navigate to Other Income Sub-Tab**
+   - Selector: `#incomes`
+   - Action: Click
+   - Wait: 2000ms
+
+3. **Click Add Income Button**
+   - Selector: `[data-testid="Add"]`
+   - Action: Click
+   - Wait: 1000ms
+   - Note: Use data-testid, NOT #btn_{UUID} (unstable)
+
+4. **Select Income Type**
+   - Selector: `#type`
+   - Action: Select from dropdown
+   - Options: Dividends, Family Allowance, Maintenance, Other
+   - Wait: 500ms
+   - Note: Use #type selector (stable), NOT data-testid with UUID
+
+5. **Select Frequency**
+   - Selector: `#frequency`
+   - Action: Select from dropdown
+   - Options: Annual, Monthly, Fortnightly, Weekly
+   - Wait: 500ms
+
+6. **Enter Amount**
+   - Selector: `#amount`
+   - Action: Clear and type text
+   - Wait: 2000ms for auto-save
+   - Note: Currency format, right-aligned
+
+**Complete Example**:
+```python
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
+import time
+
+# Step 1-2: Navigate to Other Income
+driver.find_element(By.ID, "financials").click()
+time.sleep(1)
+driver.find_element(By.ID, "incomes").click()
+time.sleep(2)
+
+# Step 3: Click Add
+driver.find_element(By.CSS_SELECTOR, '[data-testid="Add"]').click()
+time.sleep(1)
+
+# Step 4: Select income type
+income_type = Select(driver.find_element(By.ID, "type"))
+income_type.select_by_visible_text("Dividends")
+time.sleep(0.5)
+
+# Step 5: Select frequency
+frequency = Select(driver.find_element(By.ID, "frequency"))
+frequency.select_by_visible_text("Annual")
+time.sleep(0.5)
+
+# Step 6: Enter amount
+driver.find_element(By.ID, "amount").clear()
+driver.find_element(By.ID, "amount").send_keys("5000")
+time.sleep(2)  # Auto-save
+
+print("Other income entry saved")
 ```
 
 ---

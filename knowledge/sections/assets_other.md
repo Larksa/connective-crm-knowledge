@@ -3,7 +3,7 @@
 > **Parent Reference**: [COMPLETE_CONNECTIVE_CRM_REFERENCE.md](../COMPLETE_CONNECTIVE_CRM_REFERENCE.md)
 > **CRM Tab**: Financials → Assets - Other
 > **Integration Status**: ✅ Patterns documented for automation
-> **Last Updated**: 2025-10-06
+> **Last Updated**: 2025-10-08 (Verified selectors from jlall.json recording)
 
 ---
 
@@ -209,10 +209,11 @@ time.sleep(1)  # Wait for row to appear
 
 #### Step 2: Select Asset Type
 
-**Dropdown Selector**: `select[data-testid="asset-type-{index}"]` ✅ STABLE
+**Dropdown Selector**: `select[data-testid="asset-type-{index}"]` ✅ STABLE ✅ **VERIFIED from jlall.json recording**
 **Alternative**: `#name` (less specific, may conflict)
 **Tag**: `select`
 **Type**: Standard HTML dropdown with 18 options
+**Verified Pattern**: Index-based (0, 1, 2...) confirmed from recording - NOT UUID-based
 
 **Index Pattern**:
 - First asset: `asset-type-0`
@@ -342,11 +343,12 @@ if entered_value != "50000":
 
 **Field Properties**:
 - **ID**: `valueBasis`
-- **CSS Selector**: `#valueBasis`
+- **CSS Selector**: `#valueBasis` ✅ **VERIFIED from jlall.json recording (2025-10-08)**
 - **XPath**: `//*[@id="valueBasis"]`
 - **Tag**: `select`
 - **Classes**: `undefined form-item__element--select text-placeholder form-control-sm form-control`
 - **Element Rect**: Left: 779.97, Width: 79.80, Height: 28
+- **Stability**: CONFIRMED - stable ID selector, safe for automation
 
 **Available Options (3)**:
 ```xml

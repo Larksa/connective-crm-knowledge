@@ -215,15 +215,23 @@ class ReferenceLoader:
     def _parse_workflows(self):
         """Extract validated workflows"""
 
-        # Parse the three validated workflows:
+        # Parse all validated workflows:
         # 1. Add Note to Opportunity
         # 2. Upload File to Attachments
         # 3. Complete Questionnaire
+        # 4. Add Liability Entry (from jlall.json recording)
+        # 5. Add Asset (Other) (from jlall.json recording)
+        # 6. Add Living Expense Entry (from jlall.json recording)
+        # 7. Add Other Income Entry (from other_income recording)
 
         workflows_to_parse = [
             ("add_note", "Add Note to Opportunity"),
             ("upload_file", "Upload File to Attachments"),
-            ("complete_questionnaire", "Complete Questionnaire")
+            ("complete_questionnaire", "Complete Questionnaire"),
+            ("add_liability", "Add Liability Entry"),
+            ("add_asset_other", "Add Asset (Other)"),
+            ("add_living_expense", "Add Living Expense Entry"),
+            ("add_other_income", "Add Other Income Entry")
         ]
 
         for workflow_id, workflow_title in workflows_to_parse:

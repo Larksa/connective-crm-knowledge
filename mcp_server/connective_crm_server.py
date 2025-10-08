@@ -9,9 +9,13 @@ Tools provided:
 - get_selector: Get selector info for a field
 - validate_dropdown: Check if value is valid
 - fuzzy_match: Smart value matching
-- get_workflow: Retrieve validated workflow
+- get_workflow: Retrieve validated workflow (7 workflows available)
 - search_elements: Search for elements
 - get_all_options: List all dropdown options
+
+Available Workflows (7 total):
+- add_note, upload_file, complete_questionnaire (original 3)
+- add_liability, add_asset_other, add_living_expense, add_other_income (new from recordings)
 """
 
 import sys
@@ -124,13 +128,13 @@ class ConnectiveCRMServer:
             },
             {
                 "name": "get_workflow",
-                "description": "Get validated step-by-step workflow for common tasks (add_note, upload_file, complete_questionnaire). Returns detailed steps with selectors and actions.",
+                "description": "Get validated step-by-step workflow for CRM tasks. Returns detailed steps with selectors, actions, and timing. Available workflows: add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income (new workflows from recording analysis include critical timing and selector stability info)",
                 "inputSchema": {
                     "type": "object",
                     "properties": {
                         "workflow_name": {
                             "type": "string",
-                            "description": "Name of workflow (add_note, upload_file, complete_questionnaire)"
+                            "description": "Name of workflow. Options: add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income"
                         }
                     },
                     "required": ["workflow_name"]

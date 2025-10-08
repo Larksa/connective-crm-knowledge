@@ -3,7 +3,7 @@
 > **Parent Reference**: [COMPLETE_CONNECTIVE_CRM_REFERENCE.md](../COMPLETE_CONNECTIVE_CRM_REFERENCE.md)
 > **CRM Tab**: Financials → Liabilities
 > **Integration Status**: ✅ Patterns documented for automation
-> **Last Updated**: 2025-10-08 (Added Advanced Automation Lessons)
+> **Last Updated**: 2025-10-08 (Added priority field from jlall.json recording)
 
 ---
 
@@ -334,7 +334,38 @@ select_option("#accountRepaymentFrequency", text="Monthly")
 
 ---
 
-### 10. Security Field (Linked Assets)
+### 10. Priority Field
+
+**Field Properties**:
+- **ID**: `priority`
+- **CSS Selector**: `#priority`
+- **XPath**: `//*[@id="priority"]`
+- **Tag**: `select`
+- **Input Type**: `select-one`
+- **Verified**: ✅ Confirmed from jlall.json recording (2025-10-08)
+
+**Purpose**: Priority level for the liability in loan application processing
+
+**Usage Example**:
+```python
+from selenium.webdriver.support.ui import Select
+
+# Select priority level
+priority_dropdown = driver.find_element(By.ID, "priority")
+Select(priority_dropdown).select_by_visible_text("High")
+time.sleep(0.5)
+```
+
+**Available Options**: [To be documented when full option list is observed in recording]
+
+**Notes**:
+- Selector confirmed stable from recording analysis
+- May affect loan assessment priority or processing order
+- Optional field (observed usage varies by liability type)
+
+---
+
+### 11. Security Field (Linked Assets)
 
 **Display**: Column header visible in table: "Security"
 
@@ -346,7 +377,7 @@ select_option("#accountRepaymentFrequency", text="Monthly")
 
 ---
 
-### 11. "Clearing from this Loan?" Checkbox
+### 12. "Clearing from this Loan?" Checkbox
 
 **Field Properties**:
 - **Name**: `accountClearingFromLoan`
@@ -369,7 +400,7 @@ check(clearing_checkbox)
 
 ---
 
-### 12. Ownership Allocation Options
+### 13. Ownership Allocation Options
 
 **Available Options**:
 - **Allocate Evenly** - Split liability evenly between applicants
@@ -1316,7 +1347,7 @@ await page.evaluate(f"""
 
 1. **18 Liability Types Total** - Buy Now Pay Later through Other
 2. **Fastest Form** - 0.99s average between actions
-3. **Comprehensive Fields** - Up to 12 fields per liability entry
+3. **Comprehensive Fields** - Up to 13 fields per liability entry (including priority field)
 4. **Clearing Checkbox** - Use name attribute `[name="accountClearingFromLoan"]`
 5. **Frequency Values** - Use lowercase: "annually", "monthly", "fortnightly", "weekly"
 6. **Auto-Save Pattern** - No explicit save button, triggers on field completion
