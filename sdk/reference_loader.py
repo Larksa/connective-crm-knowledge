@@ -85,6 +85,7 @@ class ReferenceLoader:
         sections_to_parse = [
             ("Attachments", ElementType.INPUT),
             ("BID & NCCP", ElementType.BUTTON),
+            ("Calculations", None),  # Mixed types
             ("Details", ElementType.BUTTON),
             ("Financials", None),  # Mixed types
             ("Navigation", ElementType.TAB),
@@ -223,6 +224,9 @@ class ReferenceLoader:
         # 5. Add Asset (Other) (from jlall.json recording)
         # 6. Add Living Expense Entry (from jlall.json recording)
         # 7. Add Other Income Entry (from other_income recording)
+        # 8. Add Real Estate Asset (from connective-realestate-workflow recording)
+        # 9. Complete Borrowing Capacity Calculation (from connective-calc-borrowing-capacity recording)
+        # 10. Login and Dashboard Navigation (from shared workflow components)
 
         workflows_to_parse = [
             ("add_note", "Add Note to Opportunity"),
@@ -231,7 +235,10 @@ class ReferenceLoader:
             ("add_liability", "Add Liability Entry"),
             ("add_asset_other", "Add Asset (Other)"),
             ("add_living_expense", "Add Living Expense Entry"),
-            ("add_other_income", "Add Other Income Entry")
+            ("add_other_income", "Add Other Income Entry"),
+            ("add_real_estate", "Add Real Estate Asset"),
+            ("borrowing_capacity", "Complete Borrowing Capacity Calculation"),
+            ("login_to_crm", "Login and Dashboard Navigation (Unified)")
         ]
 
         for workflow_id, workflow_title in workflows_to_parse:

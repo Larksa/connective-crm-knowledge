@@ -9,13 +9,16 @@ Tools provided:
 - get_selector: Get selector info for a field
 - validate_dropdown: Check if value is valid
 - fuzzy_match: Smart value matching
-- get_workflow: Retrieve validated workflow (7 workflows available)
+- get_workflow: Retrieve validated workflow (10 workflows available)
 - search_elements: Search for elements
 - get_all_options: List all dropdown options
 
-Available Workflows (7 total):
+Available Workflows (10 total):
+- login_to_crm (NEW: Unified login with 4 modes - existing client, dashboard action, opportunity, dashboard only)
 - add_note, upload_file, complete_questionnaire (original 3)
-- add_liability, add_asset_other, add_living_expense, add_other_income (new from recordings)
+- add_liability, add_asset_other, add_living_expense, add_other_income (recordings batch 1)
+- add_real_estate (Assets - Real Estate with address autocomplete/manual entry)
+- borrowing_capacity (Complete borrowing capacity calculation with 2 applicants, income, expenses, assets)
 """
 
 import sys
@@ -128,13 +131,13 @@ class ConnectiveCRMServer:
             },
             {
                 "name": "get_workflow",
-                "description": "Get validated step-by-step workflow for CRM tasks. Returns detailed steps with selectors, actions, and timing. Available workflows: add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income (new workflows from recording analysis include critical timing and selector stability info)",
+                "description": "Get validated step-by-step workflow for CRM tasks. Returns detailed steps with selectors, actions, and timing. Available workflows: login_to_crm (NEW: unified login with 4 modes), add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income, add_real_estate, borrowing_capacity. All workflows include critical timing and selector stability info.",
                 "inputSchema": {
                     "type": "object",
                     "properties": {
                         "workflow_name": {
                             "type": "string",
-                            "description": "Name of workflow. Options: add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income"
+                            "description": "Name of workflow. Options: login_to_crm, add_note, upload_file, complete_questionnaire, add_liability, add_asset_other, add_living_expense, add_other_income, add_real_estate, borrowing_capacity"
                         }
                     },
                     "required": ["workflow_name"]
